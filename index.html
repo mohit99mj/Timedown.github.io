@@ -2,74 +2,32 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EVENTs TIMEDOWN</title>
-    <link rel="stylesheet" href="body.css">
+    <title>Earning Website</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header>
-        <h1>EVENTs TIMEDOWN</h1>
-        <!-- Navigation Menu -->
-        <nav class="menu">
-            <ul>
-                <li><a href="#" id="background-color-menu">Choose Background Color</a></li>
-                <li><a href="#" id="chatbot-menu">Chatbot AI</a></li>
-            </ul>
-        </nav>
-    </header>
 
-    <!-- Background Color Picker (Hidden initially) -->
-    <div class="color-picker" id="color-picker">
-        <label for="background-color">Select Background Color:</label>
-        <input type="color" id="background-color" value="#f4f4f4">
+    <div class="header">
+        <span class="coin">💰 Coin: <span id="coinBalance">0</span></span>
+        <div class="profile-icon">👤</div>
     </div>
 
-    <!-- Chatbot Interface (Hidden initially) -->
-    <div class="chatbot" id="chatbot">
-        <div class="chatbot-header">
-            <h3>Chatbot AI</h3>
-            <button id="close-chatbot">X</button>
-        </div>
-        <div class="chatbot-messages" id="chatbot-messages">
-            <p>Welcome to Chatbot AI! How can I assist you today?</p>
-        </div>
-        <div class="chatbot-input">
-            <input type="text" id="chatbot-input" placeholder="Type your message...">
-            <button id="send-chatbot-message">Send</button>
-        </div>
+    <div class="ad-banner">
+        <img src="ad-banner.jpg" alt="Ad Banner">
     </div>
 
-    <main>
-        <!-- Event Form -->
-        <section class="event-form">
-            <h2>Add Your Event</h2>
-            <form id="event-form">
-                <input type="text" id="event-name" placeholder="Event Name" required>
-                <input type="datetime-local" id="event-date" required>
-                <button type="submit">Add Event</button>
-            </form>
-        </section>
+    <div class="tasks">
+        <button id="earnCoin">Earn Coins</button>
+    </div>
 
-        <!-- Event Countdown List -->
-        <section id="event-list">
-            <!-- Countdown timers will be added here -->
-        </section>
-    </main>
+    <div class="navbar">
+        <div class="nav-item">🏠 Home</div>
+        <div class="nav-item">📋 Tasks</div>
+        <div class="nav-item">🔗 Share</div>
+        <div class="nav-item">⚙ Settings</div>
+    </div>
 
-    <footer>
-        <p>&copy; 2024 EVENTs TIMEDOWN. All Rights Reserved.</p>
-    </footer>
-
-    <script src="jk.js"></script>
-<script src="jss.js"></script>
-<script src="ai.js"></script>
-
-
-</body>
-</html>
-    </footer>
-
-    <script src="jk.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
