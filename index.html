@@ -3,31 +3,1696 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Earning Website</title>
-    <link rel="stylesheet" href="style.css">
+    <title>SchoolSync - School Management System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #1a237e;
+            --secondary-color: #3f51b5;
+            --accent-color: #ff4081;
+            --success-color: #00c853;
+            --danger-color: #d81b60;
+            --background-gradient: linear-gradient(135deg, #e8eaf6 0%, #c5cae9 100%);
+            --card-bg: rgba(255, 255, 255, 0.95);
+            --shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+            --dark-bg: #1e1e2f;
+            --dark-card: #2a2a3b;
+            --dark-text: #ffffff;
+        }
+
+        body {
+            background: var(--background-gradient);
+            min-height: 100vh;
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        body.dark-mode {
+            background: var(--dark-bg);
+            color: var(--dark-text);
+        }
+
+        body.dark-mode .navbar, body.dark-mode .school-header, body.dark-mode .modal-header, body.dark-mode .card-header {
+            background: linear-gradient(45deg, #4a4a6a, #6a6a8a);
+        }
+
+        body.dark-mode .section, body.dark-mode .card, body.dark-mode .modal-content {
+            background: var(--dark-card);
+            color: var(--dark-text);
+        }
+
+        .navbar {
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            box-shadow: var(--shadow);
+            padding: 1rem;
+            animation: slideDown 0.5s ease-out;
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-100%); }
+            to { transform: translateY(0); }
+        }
+
+        .section {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(10px);
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card {
+            border: none;
+            border-radius: 15px;
+            background: var(--card-bg);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            overflow: hidden;
+            animation: cardPop 0.5s ease-out;
+        }
+
+        @keyframes cardPop {
+            from { transform: scale(0.95); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 12px 40px rgba(31, 38, 135, 0.5);
+        }
+
+        .card-header {
+            background: linear-gradient(45deg, var(--secondary-color), var(--accent-color));
+            color: white;
+            padding: 15px;
+            border-radius: 15px 15px 0 0;
+        }
+
+        .btn-custom {
+            border-radius: 30px;
+            padding: 10px 25px;
+            transition: all 0.3s ease;
+            background: var(--secondary-color);
+            border: none;
+            color: white;
+        }
+
+        .btn-custom:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(63, 81, 181, 0.5);
+            background: var(--accent-color);
+        }
+
+        .btn-success {
+            background: var(--success-color);
+        }
+
+        .btn-danger {
+            background: var(--danger-color);
+        }
+
+        .school-header {
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 20px;
+            border-radius: 20px 20px 0 0;
+            box-shadow: var(--shadow);
+            animation: headerFade 0.8s ease-out;
+        }
+
+        @keyframes headerFade {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            border-radius: 20px;
+            border: none;
+            box-shadow: var(--shadow);
+            background: var(--card-bg);
+            animation: modalPop 0.4s ease-out;
+        }
+
+        @keyframes modalPop {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .modal-header {
+            background: linear-gradient(45deg, var(--secondary-color), var(--accent-color));
+            color: white;
+            border-radius: 20px 20px 0 0;
+        }
+
+        .form-control, .form-select {
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 0.25rem rgba(63, 81, 181, 0.25);
+        }
+
+        .school-input-group {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .nav-tabs {
+            border: none;
+        }
+
+        .nav-tabs .nav-link {
+            color: var(--primary-color);
+            padding: 12px 20px;
+            border-radius: 15px;
+            margin-right: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-tabs .nav-link:hover {
+            background: rgba(63, 81, 181, 0.1);
+        }
+
+        .nav-tabs .nav-link.active {
+            background: var(--secondary-color);
+            color: white;
+            box-shadow: 0 4px 15px rgba(63, 81, 181, 0.3);
+        }
+
+        #loginSection {
+            max-width: 450px;
+            margin: 60px auto;
+            animation: loginFade 0.8s ease-out;
+        }
+
+        @keyframes loginFade {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        h1, h2, h5 {
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .notice-board {
+            max-height: 300px;
+            overflow-y: auto;
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        .clock {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .stats-card {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .timetable-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .school-input-group {
+                flex-direction: column;
+            }
+            .timetable-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+    </style>
 </head>
 <body>
-
-    <div class="header">
-        <span class="coin">💰 Coin: <span id="coinBalance">0</span></span>
-        <div class="profile-icon">👤</div>
+    <div id="loginSection" class="section">
+        <h2 class="text-center mb-4"><i class="fas fa-lock"></i> Login to SchoolSync</h2>
+        <form onsubmit="login(event)">
+            <div class="mb-4">
+                <label class="form-label">Username</label>
+                <input type="text" class="form-control" id="loginUsername" required placeholder="Enter username">
+            </div>
+            <div class="mb-4">
+                <label class="form-label">Password</label>
+                <input type="password" class="form-control" id="loginPassword" required placeholder="Enter password">
+            </div>
+            <div class="mb-4">
+                <label class="form-label">Role</label>
+                <select class="form-select" id="loginRole" required>
+                    <option value="Admin">Admin</option>
+                    <option value="Teacher">Teacher</option>
+                    <option value="Student">Student</option>
+                    <option value="Parent">Parent</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-custom btn-primary w-100">Login</button>
+        </form>
     </div>
 
-    <div class="ad-banner">
-        <img src="ad-banner.jpg" alt="Ad Banner">
+    <div id="mainApp" style="display: none;">
+        <nav class="navbar navbar-expand-lg navbar-dark">
+            <div class="container">
+                <a class="navbar-brand" href="#"><i class="fas fa-school"></i> SchoolSync</a>
+                <div class="navbar-nav ms-auto school-input-group">
+                    <span class="clock" id="realTimeClock"></span>
+                    <select id="schoolSelect" class="form-select" style="width: 220px; border-radius: 10px;">
+                        <option value="">Select School</option>
+                    </select>
+                    <button class="btn btn-custom btn-success" data-bs-toggle="modal" data-bs-target="#addSchoolModal" id="addSchoolBtn">
+                        <i class="fas fa-plus"></i> Add School
+                    </button>
+                    <button class="btn btn-custom" onclick="toggleDarkMode()">Dark Mode</button>
+                    <button class="btn btn-custom btn-danger" onclick="logout()">Logout</button>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container mt-4">
+            <div class="school-header d-flex justify-content-between align-items-center">
+                <h1 class="m-0"><i class="fas fa-graduation-cap"></i> School Management Dashboard</h1>
+                <button class="btn btn-custom" onclick="downloadBackup()">Backup Data</button>
+            </div>
+
+            <div class="row mb-4" id="adminDashboard" style="display: none;">
+                <div class="col-md-3"><div class="card stats-card"><h5>Total Students</h5><p id="totalStudents">0</p></div></div>
+                <div class="col-md-3"><div class="card stats-card"><h5>Total Teachers</h5><p id="totalTeachers">0</p></div></div>
+                <div class="col-md-3"><div class="col-md-3"><div class="card stats-card"><h5>Pending Fees</h5><p id="pendingFees">0</p></div></div></div>
+                <div class="col-md-3"><div class="card stats-card"><h5>Total Books</h5><p id="totalBooks">0</p></div></div>
+            </div>
+
+            <div class="section" id="parentDashboard" style="display: none;">
+                <h2><i class="fas fa-user-friends"></i> Parent Dashboard</h2>
+                <div id="childInfo"></div>
+            </div>
+
+            <ul class="nav nav-tabs mb-4" id="navTabs">
+                <li class="nav-item"><a class="nav-link active" onclick="showSection('students')">Students</a></li>
+                <li class="nav-item"><a class="nav-link" onclick="showSection('teachers')">Teachers</a></li>
+                <li class="nav-item"><a class="nav-link" onclick="showSection('courses')">Courses</a></li>
+                <li class="nav-item"><a class="nav-link" onclick="showSection('exams')">Exams</a></li>
+                <li class="nav-item"><a class="nav-link" onclick="showSection('fees')">Fees</a></li>
+                <li class="nav-item"><a class="nav-link" onclick="showSection('library')">Library</a></li>
+                <li class="nav-item"><a class="nav-link" onclick="showSection('transport')">Transport</a></li>
+                <li class="nav-item"><a class="nav-link" onclick="showSection('hostel')">Hostel</a></li>
+                <li class="nav-item"><a class="nav-link" onclick="showSection('timetable')">Timetable</a></li>
+                <li class="nav-item"><a class="nav-link" onclick="showSection('homework')">Homework</a></li>
+                <li class="nav-item"><a class="nav-link" onclick="showSection('notices')">Notices</a></li>
+            </ul>
+
+            <div id="students" class="section active">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2><i class="fas fa-user-graduate"></i> Student Management</h2>
+                    <div>
+                        <input type="text" class="form-control d-inline-block w-auto" id="searchStudent" placeholder="Search by ID/Name" onkeyup="searchStudents()">
+                        <button class="btn btn-custom btn-success ms-2" data-bs-toggle="modal" data-bs-target="#addStudentModal" id="addStudentBtn"><i class="fas fa-plus"></i> Add Student</button>
+                    </div>
+                </div>
+                <table class="table table-striped">
+                    <thead><tr><th>ID</th><th>Name</th><th>Class</th><th>Attendance</th><th>Actions</th></tr></thead>
+                    <tbody id="studentTable"></tbody>
+                </table>
+            </div>
+
+            <div id="teachers" class="section" style="display: none;">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2><i class="fas fa-chalkboard-teacher"></i> Teacher Management</h2>
+                    <button class="btn btn-custom btn-success" data-bs-toggle="modal" data-bs-target="#addTeacherModal" id="addTeacherBtn"><i class="fas fa-plus"></i> Add Teacher</button>
+                </div>
+                <table class="table table-striped">
+                    <thead><tr><th>ID</th><th>Name</th><th>Subjects</th><th>Actions</th></tr></thead>
+                    <tbody id="teacherTable"></tbody>
+                </table>
+            </div>
+
+            <div id="courses" class="section" style="display: none;">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2><i class="fas fa-book"></i> Course Management</h2>
+                    <button class="btn btn-custom btn-success" data-bs-toggle="modal" data-bs-target="#addCourseModal" id="addCourseBtn"><i class="fas fa-plus"></i> Add Course</button>
+                </div>
+                <div id="courseCards" class="row"></div>
+            </div>
+
+            <div id="exams" class="section" style="display: none;">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2><i class="fas fa-graduation-cap"></i> Exam Management</h2>
+                    <button class="btn btn-custom btn-success" data-bs-toggle="modal" data-bs-target="#addExamModal" id="addExamBtn"><i class="fas fa-plus"></i> Schedule Exam</button>
+                </div>
+                <div id="examCards" class="row"></div>
+                <div class="mt-4">
+                    <h3>Exam Results</h3>
+                    <button class="btn btn-custom btn-success" data-bs-toggle="modal" data-bs-target="#addResultModal">Add Result</button>
+                    <table class="table table-striped mt-2">
+                        <thead><tr><th>Student</th><th>Course</th><th>Marks</th></tr></thead>
+                        <tbody id="resultTable"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="fees" class="section" style="display: none;">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2><i class="fas fa-money-bill"></i> Fee Management</h2>
+                    <button class="btn btn-custom btn-success" data-bs-toggle="modal" data-bs-target="#addFeeModal" id="addFeeBtn"><i class="fas fa-plus"></i> Add Fee Record</button>
+                </div>
+                <div id="feeCards" class="row"></div>
+            </div>
+
+            <div id="library" class="section" style="display: none;">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2><i class="fas fa-book-open"></i> Library Management</h2>
+                    <button class="btn btn-custom btn-success" data-bs-toggle="modal" data-bs-target="#addBookModal" id="addBookBtn"><i class="fas fa-plus"></i> Add Book</button>
+                </div>
+                <div id="bookCards" class="row"></div>
+            </div>
+
+            <div id="transport" class="section" style="display: none;">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2><i class="fas fa-bus"></i> Transport Management</h2>
+                    <button class="btn btn-custom btn-success" data-bs-toggle="modal" data-bs-target="#addBusModal" id="addBusBtn"><i class="fas fa-plus"></i> Add Bus</button>
+                </div>
+                <div id="busCards" class="row"></div>
+            </div>
+
+            <div id="hostel" class="section" style="display: none;">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2><i class="fas fa-building"></i> Hostel Management</h2>
+                    <button class="btn btn-custom btn-success" data-bs-toggle="modal" data-bs-target="#addRoomModal" id="addRoomBtn"><i class="fas fa-plus"></i> Add Room</button>
+                </div>
+                <div id="roomCards" class="row"></div>
+            </div>
+
+            <div id="timetable" class="section" style="display: none;">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2><i class="fas fa-clock"></i> Timetable Management</h2>
+                    <button class="btn btn-custom btn-success" data-bs-toggle="modal" data-bs-target="#addTimetableModal" id="addTimetableBtn"><i class="fas fa-plus"></i> Add Period</button>
+                </div>
+                <div class="timetable-grid" id="timetableGrid"></div>
+            </div>
+
+            <div id="homework" class="section" style="display: none;">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2><i class="fas fa-tasks"></i> Homework Tracker</h2>
+                    <button class="btn btn-custom btn-success" data-bs-toggle="modal" data-bs-target="#addHomeworkModal">Add Homework</button>
+                </div>
+                <ul class="list-group" id="homeworkList"></ul>
+            </div>
+
+            <div id="notices" class="section" style="display: none;">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2><i class="fas fa-bell"></i> Notice Board</h2>
+                    <button class="btn btn-custom btn-success" data-bs-toggle="modal" data-bs-target="#addNoticeModal">Add Notice</button>
+                </div>
+                <div class="notice-board" id="noticeBoard"></div>
+                <div class="mt-4">
+                    <h3>Message Log</h3>
+                    <textarea class="form-control" id="messageLog" rows="3" placeholder="Enter message"></textarea>
+                    <button class="btn btn-custom btn-primary mt-2" onclick="saveMessage()">Save Message</button>
+                    <ul class="list-group mt-2" id="messageList"></ul>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div class="tasks">
-        <button id="earnCoin">Earn Coins</button>
+    <!-- Modals -->
+    <div class="modal fade" id="addSchoolModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="fas fa-school"></i> Add New School</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form onsubmit="addSchool(event)">
+                        <div class="mb-3">
+                            <label class="form-label">School Name</label>
+                            <input type="text" class="form-control" id="schoolName" required placeholder="Enter school name">
+                        </div>
+                        <button type="submit" class="btn btn-custom btn-primary w-100">Add School</button>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div class="navbar">
-        <div class="nav-item">🏠 Home</div>
-        <div class="nav-item">📋 Tasks</div>
-        <div class="nav-item">🔗 Share</div>
-        <div class="nav-item">⚙ Settings</div>
+    <div class="modal fade" id="addStudentModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="fas fa-user-plus"></i> Add/Edit Student</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form onsubmit="addStudent(event)">
+                        <input type="hidden" id="studentId">
+                        <div class="mb-3">
+                            <label class="form-label">Roll Number</label>
+                            <input type="text" class="form-control" id="studentRollNo" required placeholder="e.g., S001">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Name</label>
+                            <input type="text" class="form-control" id="studentName" required placeholder="Enter name">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Class</label>
+                            <input type="text" class="form-control" id="studentClass" required placeholder="e.g., 10A">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Age</label>
+                            <input type="number" class="form-control" id="studentAge" min="5" max="100" required placeholder="Enter age">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Parent Name</label>
+                            <input type="text" class="form-control" id="studentParent" required placeholder="Enter parent name">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Contact</label>
+                            <input type="tel" class="form-control" id="studentContact" required placeholder="Enter contact number" pattern="[0-9]{10}">
+                        </div>
+                        <button type="submit" class="btn btn-custom btn-primary w-100">Save Student</button>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <script src="script.js"></script>
+    <div class="modal fade" id="addTeacherModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="fas fa-chalkboard-teacher"></i> Add Teacher</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form onsubmit="addTeacher(event)">
+                        <div class="mb-3">
+                            <label class="form-label">Name</label>
+                            <input type="text" class="form-control" id="teacherName" required placeholder="Enter name">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Qualification</label>
+                            <input type="text" class="form-control" id="teacherQualification" required placeholder="e.g., M.Ed">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Subjects (comma-separated)</label>
+                            <input type="text" class="form-control" id="teacherSubjects" required placeholder="e.g., Math, Science">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Contact</label>
+                            <input type="tel" class="form-control" id="teacherContact" required placeholder="Enter contact" pattern="[0-9]{10}">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Assign Class</label>
+                            <select class="form-select" id="teacherClass"></select>
+                        </div>
+                        <button type="submit" class="btn btn-custom btn-primary w-100">Add Teacher</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="addCourseModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="fas fa-book"></i> Add Course</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form onsubmit="addCourse(event)">
+                        <div class="mb-3">
+                            <label class="form-label">Course Name</label>
+                            <input type="text" class="form-control" id="courseName" required placeholder="e.g., Mathematics">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Teacher</label>
+                            <select class="form-select" id="courseTeacher" required></select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Syllabus</label>
+                            <textarea class="form-control" id="courseSyllabus" rows="3" placeholder="Enter syllabus details"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-custom btn-primary w-100">Add Course</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="addExamModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="fas fa-graduation-cap"></i> Schedule Exam</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form onsubmit="addExam(event)">
+                        <div class="mb-3">
+                            <label class="form-label">Exam Name</label>
+                            <input type="text" class="form-control" id="examName" required placeholder="e.g., Mid-Term">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Date</label>
+                            <input type="date" class="form-control" id="examDate" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Course</label>
+                            <select class="form-select" id="examCourse" required></select>
+                        </div>
+                        <button type="submit" class="btn btn-custom btn-primary w-100">Schedule Exam</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="addFeeModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="fas fa-money-bill"></i> Add Fee Record</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form onsubmit="addFee(event)">
+                        <div class="mb-3">
+                            <label class="form-label">Student</label>
+                            <select class="form-select" id="feeStudent" required></select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Amount</label>
+                            <input type="number" class="form-control" id="feeAmount" required min="1" placeholder="Enter amount">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Due Date</label>
+                            <input type="date" class="form-control" id="feeDueDate" required>
+                        </div>
+                        <button type="submit" class="btn btn-custom btn-primary w-100">Add Fee</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="addBookModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="fas fa-book-open"></i> Add Book</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form onsubmit="addBook(event)">
+                        <div class="mb-3">
+                            <label class="form-label">Title</label>
+                            <input type="text" class="form-control" id="bookTitle" required placeholder="Enter book title">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Author</label>
+                            <input type="text" class="form-control" id="bookAuthor" required placeholder="Enter author name">
+                        </div>
+                        <button type="submit" class="btn btn-custom btn-primary w-100">Add Book</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="addBusModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="fas fa-bus"></i> Add Bus</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form onsubmit="addBus(event)">
+                        <div class="mb-3">
+                            <label class="form-label">Bus Number</label>
+                            <input type="text" class="form-control" id="busNumber" required placeholder="e.g., BUS001">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Route</label>
+                            <input type="text" class="form-control" id="busRoute" required placeholder="e.g., Route A">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Driver Name</label>
+                            <input type="text" class="form-control" id="busDriver" required placeholder="Enter driver name">
+                        </div>
+                        <button type="submit" class="btn btn-custom btn-primary w-100">Add Bus</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="addRoomModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="fas fa-building"></i> Add Room</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form onsubmit="addRoom(event)">
+                        <div class="mb-3">
+                            <label class="form-label">Room Number</label>
+                            <input type="text" class="form-control" id="roomNumber" required placeholder="e.g., R101">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Assign Student (optional)</label>
+                            <select class="form-select" id="roomStudent">
+                                <option value="">None</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-custom btn-primary w-100">Add Room</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="attendanceModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="fas fa-check-square"></i> Record Attendance</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form onsubmit="recordAttendance(event)">
+                        <div class="mb-3">
+                            <label class="form-label">Student</label>
+                            <select class="form-select" id="attendanceStudent" required></select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Date</label>
+                            <input type="date" class="form-control" id="attendanceDate" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Status</label>
+                            <select class="form-select" id="attendanceStatus" required>
+                                <option value="Present">Present</option>
+                                <option value="Absent">Absent</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-custom btn-primary w-100">Record Attendance</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="addResultModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="fas fa-star"></i> Add Exam Result</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form onsubmit="addResult(event)">
+                        <div class="mb-3">
+                            <label class="form-label">Student</label>
+                            <select class="form-select" id="resultStudent" required></select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Course</label>
+                            <select class="form-select" id="resultCourse" required></select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Marks</label>
+                            <input type="number" class="form-control" id="resultMarks" required min="0" max="100" placeholder="Enter marks">
+                        </div>
+                        <button type="submit" class="btn btn-custom btn-primary w-100">Add Result</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="addTimetableModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="fas fa-clock"></i> Add Timetable Period</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form onsubmit="addTimetable(event)">
+                        <div class="mb-3">
+                            <label class="form-label">Day</label>
+                            <select class="form-select" id="timetableDay" required>
+                                <option value="Monday">Monday</option>
+                                <option value="Tuesday">Tuesday</option>
+                                <option value="Wednesday">Wednesday</option>
+                                <option value="Thursday">Thursday</option>
+                                <option value="Friday">Friday</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Period</label>
+                            <input type="number" class="form-control" id="timetablePeriod" required min="1" max="8" placeholder="1-8">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Subject</label>
+                            <select class="form-select" id="timetableCourse" required></select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Teacher</label>
+                            <select class="form-select" id="timetableTeacher" required></select>
+                        </div>
+                        <button type="submit" class="btn btn-custom btn-primary w-100">Add Period</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="addHomeworkModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="fas fa-tasks"></i> Add Homework</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form onsubmit="addHomework(event)">
+                        <div class="mb-3">
+                            <label class="form-label">Task</label>
+                            <input type="text" class="form-control" id="homeworkTask" required placeholder="Enter task">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Due Date</label>
+                            <input type="date" class="form-control" id="homeworkDueDate" required>
+                        </div>
+                        <button type="submit" class="btn btn-custom btn-primary w-100">Add Homework</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="addNoticeModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="fas fa-bell"></i> Add Notice</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form onsubmit="addNotice(event)">
+                        <div class="mb-3">
+                            <label class="form-label">Notice</label>
+                            <textarea class="form-control" id="noticeText" required placeholder="Enter notice"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-custom btn-primary w-100">Add Notice</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let schools = {
+            currentSchool: null,
+            data: {},
+            users: {
+                'admin': { password: 'admin123', role: 'Admin' },
+                'teacher1': { password: 'teach123', role: 'Teacher' },
+                'student1': { password: 'stud123', role: 'Student' },
+                'parent1': { password: 'parent123', role: 'Parent' }
+            },
+            currentUser: null,
+            notifications: []
+        };
+
+        function initializeSchool(schoolName) {
+            const schoolId = `SCH${Date.now()}`;
+            schools.data[schoolId] = {
+                name: schoolName,
+                students: [],
+                teachers: [],
+                courses: [],
+                exams: [],
+                fees: [],
+                library: [],
+                transport: [],
+                hostel: [],
+                timetable: [],
+                homework: [],
+                notices: [],
+                messages: [],
+                results: [],
+                counters: { student: 1, teacher: 1, course: 1, exam: 1, fee: 1, book: 1, bus: 1, room: 1, homework: 1, notice: 1 }
+            };
+            return schoolId;
+        }
+
+        function loadData() {
+            const stored = localStorage.getItem('schoolManagement');
+            if (stored) schools = JSON.parse(stored);
+            updateSchoolSelect();
+            if (!schools.currentSchool && Object.keys(schools.data).length > 0) {
+                schools.currentSchool = Object.keys(schools.data)[0];
+            }
+            updateUI();
+            updateClock();
+            setInterval(updateClock, 1000);
+            checkNotifications();
+        }
+
+        function saveData() {
+            localStorage.setItem('schoolManagement', JSON.stringify(schools));
+            updateUI();
+        }
+
+        function updateSchoolSelect() {
+            const select = document.getElementById('schoolSelect');
+            select.innerHTML = '<option value="">Select School</option>';
+            Object.entries(schools.data).forEach(([schoolId, schoolData]) => {
+                const option = document.createElement('option');
+                option.value = schoolId;
+                option.textContent = schoolData.name;
+                select.appendChild(option);
+            });
+            select.value = schools.currentSchool || '';
+        }
+
+        function showSection(sectionId) {
+            document.querySelectorAll('.section').forEach(section => section.style.display = 'none');
+            document.getElementById(sectionId).style.display = 'block';
+            document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+            document.querySelector(`a[onclick="showSection('${sectionId}')"]`).classList.add('active');
+        }
+
+        function updateUI() {
+            if (!schools.currentSchool || !schools.currentUser) return;
+            const schoolData = schools.data[schools.currentSchool];
+            const role = schools.currentUser.role;
+
+            document.querySelectorAll('.nav-item').forEach(item => {
+                const sectionId = item.querySelector('.nav-link').getAttribute('onclick').match(/'([^']+)'/)[1];
+                item.style.display = checkPermission(sectionId, role) ? 'block' : 'none';
+            });
+
+            document.getElementById('addSchoolBtn').style.display = role === 'Admin' ? 'inline-block' : 'none';
+            document.getElementById('addStudentBtn').style.display = role === 'Admin' || role === 'Teacher' ? 'inline-block' : 'none';
+            document.getElementById('addTeacherBtn').style.display = role === 'Admin' ? 'inline-block' : 'none';
+            document.getElementById('addCourseBtn').style.display = role === 'Admin' || role === 'Teacher' ? 'inline-block' : 'none';
+            document.getElementById('addExamBtn').style.display = role === 'Admin' || role === 'Teacher' ? 'inline-block' : 'none';
+            document.getElementById('addFeeBtn').style.display = role === 'Admin' ? 'inline-block' : 'none';
+            document.getElementById('addBookBtn').style.display = role === 'Admin' || role === 'Teacher' ? 'inline-block' : 'none';
+            document.getElementById('addBusBtn').style.display = role === 'Admin' ? 'inline-block' : 'none';
+            document.getElementById('addRoomBtn').style.display = role === 'Admin' ? 'inline-block' : 'none';
+            document.getElementById('addTimetableBtn').style.display = role === 'Admin' || role === 'Teacher' ? 'inline-block' : 'none';
+
+            document.getElementById('adminDashboard').style.display = role === 'Admin' ? 'flex' : 'none';
+            document.getElementById('parentDashboard').style.display = role === 'Parent' ? 'block' : 'none';
+
+            updateStudentTable(schoolData.students);
+            updateTeacherTable(schoolData.teachers);
+            updateCards('courseCards', schoolData.courses, courseCard);
+            updateCards('examCards', schoolData.exams, examCard);
+            updateCards('feeCards', role === 'Parent' ? schoolData.fees.filter(f => f.studentId === getStudentIdForParent()) : schoolData.fees, feeCard);
+            updateCards('bookCards', schoolData.library, bookCard);
+            updateCards('busCards', schoolData.transport, busCard);
+            updateCards('roomCards', schoolData.hostel, roomCard);
+            updateTimetable(schoolData.timetable);
+            updateHomework(schoolData.homework);
+            updateNotices(schoolData.notices);
+            updateMessages(schoolData.messages);
+            updateResults(schoolData.results);
+            updateAdminDashboard(schoolData);
+            updateParentDashboard(schoolData);
+            updateDropdowns(schoolData);
+        }
+
+        function checkPermission(sectionId, role) {
+            const permissions = {
+                'Admin': ['students', 'teachers', 'courses', 'exams', 'fees', 'library', 'transport', 'hostel', 'timetable', 'homework', 'notices'],
+                'Teacher': ['students', 'courses', 'exams', 'library', 'timetable', 'homework', 'notices'],
+                'Student': ['courses', 'exams', 'fees', 'library', 'homework', 'notices'],
+                'Parent': ['students', 'fees', 'notices']
+            };
+            return permissions[role].includes(sectionId);
+        }
+
+        function updateCards(containerId, items, cardFunc) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+            container.innerHTML = '';
+            items.forEach(item => {
+                const col = document.createElement('div');
+                col.className = 'col-md-4 mb-3';
+                col.innerHTML = cardFunc(item);
+                container.appendChild(col);
+            });
+        }
+
+        function updateStudentTable(students) {
+            const tbody = document.getElementById('studentTable');
+            tbody.innerHTML = '';
+            students.forEach(student => {
+                const latestAttendance = student.attendance.length > 0 ? student.attendance[student.attendance.length - 1].status : 'N/A';
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${student.rollNo}</td>
+                    <td>${student.name}</td>
+                    <td>${student.class}</td>
+                    <td class="${latestAttendance === 'Present' ? 'text-success' : 'text-danger'}">${latestAttendance}</td>
+                    <td>
+                        ${schools.currentUser.role === 'Admin' || schools.currentUser.role === 'Teacher' ? `
+                            <button class="btn btn-custom btn-sm btn-primary" onclick="editStudent(${student.id})"><i class="fas fa-edit"></i></button>
+                            <button class="btn btn-custom btn-sm btn-danger" onclick="deleteItem('students', ${student.id})"><i class="fas fa-trash"></i></button>
+                            <button class="btn btn-custom btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#attendanceModal" onclick="setAttendanceStudent(${student.id})"><i class="fas fa-check-square"></i></button>
+                        ` : ''}
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function updateTeacherTable(teachers) {
+            const tbody = document.getElementById('teacherTable');
+            tbody.innerHTML = '';
+            teachers.forEach(teacher => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>T${teacher.id}</td>
+                    <td>${teacher.name}</td>
+                    <td>${teacher.subjects.join(', ')}</td>
+                    <td>
+                        ${schools.currentUser.role === 'Admin' ? `
+                            <button class="btn btn-custom btn-sm btn-danger" onclick="deleteItem('teachers', ${teacher.id})"><i class="fas fa-trash"></i></button>
+                        ` : ''}
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function updateTimetable(timetable) {
+            const grid = document.getElementById('timetableGrid');
+            grid.innerHTML = '';
+            const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+            days.forEach(day => {
+                for (let period = 1; period <= 5; period++) {
+                    const slot = timetable.find(t => t.day === day && t.period === period);
+                    const card = document.createElement('div');
+                    card.className = 'card';
+                    card.innerHTML = `
+                        <div class="card-header">${day} - Period ${period}</div>
+                        <div class="card-body">
+                            ${slot ? `
+                                <p><strong>Subject:</strong> ${getCourseName(slot.courseId)}</p>
+                                <p><strong>Teacher:</strong> ${getTeacherName(slot.teacherId)}</p>
+                                ${schools.currentUser.role === 'Admin' || schools.currentUser.role === 'Teacher' ? `<button class="btn btn-custom btn-sm btn-danger" onclick="deleteItem('timetable', ${slot.id})"><i class="fas fa-trash"></i></button>` : ''}
+                            ` : 'Free'}
+                        </div>
+                    `;
+                    grid.appendChild(card);
+                }
+            });
+        }
+
+        function updateHomework(homework) {
+            const list = document.getElementById('homeworkList');
+            list.innerHTML = '';
+            homework.forEach(hw => {
+                const li = document.createElement('li');
+                li.className = `list-group-item d-flex justify-content-between align-items-center ${hw.completed ? 'bg-success text-white' : ''}`;
+                li.innerHTML = `
+                    ${hw.task} (Due: ${hw.dueDate})
+                    <div>
+                        <button class="btn btn-custom btn-sm ${hw.completed ? 'btn-danger' : 'btn-success'}" onclick="toggleHomework(${hw.id})">${hw.completed ? 'Undo' : 'Complete'}</button>
+                        ${schools.currentUser.role === 'Admin' || schools.currentUser.role === 'Teacher' ? `<button class="btn btn-custom btn-sm btn-danger" onclick="deleteItem('homework', ${hw.id})"><i class="fas fa-trash"></i></button>` : ''}
+                    </div>
+                `;
+                list.appendChild(li);
+            });
+        }
+
+        function updateNotices(notices) {
+            const board = document.getElementById('noticeBoard');
+            board.innerHTML = '';
+            notices.forEach(notice => {
+                const div = document.createElement('div');
+                div.className = 'card mb-2';
+                div.innerHTML = `
+                    <div class="card-body">
+                        <p>${notice.text}</p>
+                        <small>${notice.date}</small>
+                        ${schools.currentUser.role === 'Admin' || schools.currentUser.role === 'Teacher' ? `<button class="btn btn-custom btn-sm btn-danger" onclick="deleteItem('notices', ${notice.id})"><i class="fas fa-trash"></i></button>` : ''}
+                    </div>
+                `;
+                board.appendChild(div);
+            });
+        }
+
+        function updateMessages(messages) {
+            const list = document.getElementById('messageList');
+            list.innerHTML = '';
+            messages.forEach(msg => {
+                const li = document.createElement('li');
+                li.className = 'list-group-item';
+                li.textContent = `${msg.text} - ${msg.date}`;
+                list.appendChild(li);
+            });
+        }
+
+        function updateResults(results) {
+            const tbody = document.getElementById('resultTable');
+            tbody.innerHTML = '';
+            results.forEach(result => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${getStudentName(result.studentId)}</td>
+                    <td>${getCourseName(result.courseId)}</td>
+                    <td>${result.marks}</td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function updateAdminDashboard(schoolData) {
+            document.getElementById('totalStudents').textContent = schoolData.students.length;
+            document.getElementById('totalTeachers').textContent = schoolData.teachers.length;
+            document.getElementById('pendingFees').textContent = schoolData.fees.filter(f => f.status === 'Pending').length;
+            document.getElementById('totalBooks').textContent = schoolData.library.length;
+        }
+
+        function updateParentDashboard(schoolData) {
+            const childId = getStudentIdForParent();
+            const child = schoolData.students.find(s => s.id === childId);
+            if (!child) return;
+            const attendance = child.attendance.length > 0 ? child.attendance[child.attendance.length - 1].status : 'N/A';
+            const fees = schoolData.fees.filter(f => f.studentId === childId);
+            const latestFee = fees.length > 0 ? fees[fees.length - 1] : null;
+            document.getElementById('childInfo').innerHTML = `
+                <div class="card">
+                    <div class="card-header">Child: ${child.name}</div>
+                    <div class="card-body">
+                        <p><strong>Class:</strong> ${child.class}</p>
+                        <p><strong>Attendance:</strong> <span class="${attendance === 'Present' ? 'text-success' : 'text-danger'}">${attendance}</span></p>
+                        <p><strong>Fee Status:</strong> ${latestFee ? `${latestFee.amount} - ${latestFee.status} (Due: ${latestFee.dueDate})` : 'No fees recorded'}</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        function updateDropdowns(schoolData) {
+            updateDropdown('courseTeacher', schoolData.teachers, 'id', 'name');
+            updateDropdown('examCourse', schoolData.courses, 'id', 'name');
+            updateDropdown('feeStudent', schoolData.students, 'id', 'name');
+            updateDropdown('roomStudent', schoolData.students, 'id', 'name');
+            updateDropdown('attendanceStudent', schoolData.students, 'id', 'name');
+            updateDropdown('resultStudent', schoolData.students, 'id', 'name');
+            updateDropdown('resultCourse', schoolData.courses, 'id', 'name');
+            updateDropdown('timetableCourse', schoolData.courses, 'id', 'name');
+            updateDropdown('timetableTeacher', schoolData.teachers, 'id', 'name');
+            updateDropdown('teacherClass', schoolData.students.map(s => ({ id: s.id, name: s.class })), 'id', 'name');
+        }
+
+        function updateDropdown(id, items, valueKey, textKey) {
+            const select = document.getElementById(id);
+            if (!select) return;
+            select.innerHTML = id === 'roomStudent' || id === 'teacherClass' ? '<option value="">None</option>' : '<option value="">Select</option>';
+            items.forEach(item => {
+                const option = document.createElement('option');
+                option.value = item[valueKey];
+                option.textContent = item[textKey];
+                select.appendChild(option);
+            });
+        }
+
+        function studentCard(student) {
+            const role = schools.currentUser.role;
+            const latestAttendance = student.attendance.length > 0 ? student.attendance[student.attendance.length - 1].status : 'N/A';
+            const latestGrade = student.grades.length > 0 ? student.grades[student.grades.length - 1].grade : 'N/A';
+            return `
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0"><i class="fas fa-user-graduate"></i> ${student.name}</h5>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Roll No:</strong> ${student.rollNo}</p>
+                        <p><strong>Class:</strong> ${student.class}</p>
+                        ${role === 'Parent' || role === 'Admin' ? `<p><strong>Parent:</strong> ${student.parent}</p><p><strong>Contact:</strong> ${student.contact}</p>` : ''}
+                        <p><strong>Attendance:</strong> ${latestAttendance}</p>
+                        <p><strong>Grade:</strong> ${latestGrade}</p>
+                        ${role === 'Admin' || role === 'Teacher' ? `<button class="btn btn-custom btn-danger btn-sm" onclick="deleteItem('students', ${student.id})"><i class="fas fa-trash"></i> Delete</button>` : ''}
+                        ${role === 'Teacher' || role === 'Admin' ? `<button class="btn btn-custom btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#attendanceModal" onclick="setAttendanceStudent(${student.id})"><i class="fas fa-check-square"></i> Attendance</button>` : ''}
+                    </div>
+                </div>
+            `;
+        }
+
+        function teacherCard(teacher) {
+            const role = schools.currentUser.role;
+            return `
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0"><i class="fas fa-chalkboard-teacher"></i> ${teacher.name}</h5>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Qualification:</strong> ${teacher.qualification}</p>
+                        <p><strong>Subjects:</strong> ${teacher.subjects.join(', ')}</p>
+                        <p><strong>Experience:</strong> ${teacher.experience} years</p>
+                        ${role === 'Admin' ? `<button class="btn btn-custom btn-danger btn-sm" onclick="deleteItem('teachers', ${teacher.id})"><i class="fas fa-trash"></i> Delete</button>` : ''}
+                    </div>
+                </div>
+            `;
+        }
+
+        function courseCard(course) {
+            const schoolData = schools.data[schools.currentSchool];
+            const role = schools.currentUser.role;
+            const teacher = schoolData.teachers.find(t => t.id === course.teacherId);
+            return `
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0"><i class="fas fa-book"></i> ${course.name}</h5>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Teacher:</strong> ${teacher ? teacher.name : 'N/A'}</p>
+                        <p><strong>Syllabus:</strong> ${course.syllabus || 'Not set'}</p>
+                        ${role === 'Admin' || role === 'Teacher' ? `<button class="btn btn-custom btn-danger btn-sm" onclick="deleteItem('courses', ${course.id})"><i class="fas fa-trash"></i> Delete</button>` : ''}
+                    </div>
+                </div>
+            `;
+        }
+
+        function examCard(exam) {
+            const schoolData = schools.data[schools.currentSchool];
+            const role = schools.currentUser.role;
+            const course = schoolData.courses.find(c => c.id === exam.courseId);
+            return `
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0"><i class="fas fa-graduation-cap"></i> ${exam.name}</h5>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Date:</strong> ${exam.date}</p>
+                        <p><strong>Course:</strong> ${course ? course.name : 'N/A'}</p>
+                        ${role === 'Admin' || role === 'Teacher' ? `<button class="btn btn-custom btn-danger btn-sm" onclick="deleteItem('exams', ${exam.id})"><i class="fas fa-trash"></i> Delete</button>` : ''}
+                    </div>
+                </div>
+            `;
+        }
+
+        function feeCard(fee) {
+            const schoolData = schools.data[schools.currentSchool];
+            const role = schools.currentUser.role;
+            const student = schoolData.students.find(s => s.id === fee.studentId);
+            return `
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0"><i class="fas fa-money-bill"></i> ${student ? student.name : 'N/A'}</h5>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Amount:</strong> ₹${fee.amount}</p>
+                        <p><strong>Due Date:</strong> ${fee.dueDate}</p>
+                        <p><strong>Status:</strong> <span class="${fee.status === 'Paid' ? 'text-success' : 'text-danger'}">${fee.status}</span></p>
+                        ${role === 'Admin' ? `<button class="btn btn-custom btn-danger btn-sm" onclick="deleteItem('fees', ${fee.id})"><i class="fas fa-trash"></i> Delete</button>` : ''}
+                        ${role === 'Parent' || role === 'Student' ? `<button class="btn btn-custom btn-success btn-sm" onclick="payFee(${fee.id})"><i class="fas fa-check"></i> Pay</button>` : ''}
+                    </div>
+                </div>
+            `;
+        }
+
+        function bookCard(book) {
+            const role = schools.currentUser.role;
+            return `
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0"><i class="fas fa-book-open"></i> ${book.title}</h5>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Author:</strong> ${book.author}</p>
+                        <p><strong>Status:</strong> ${book.status}</p>
+                        ${role === 'Admin' || role === 'Teacher' ? `<button class="btn btn-custom btn-danger btn-sm" onclick="deleteItem('library', ${book.id})"><i class="fas fa-trash"></i> Delete</button>` : ''}
+                        ${role === 'Admin' || role === 'Teacher' || role === 'Student' ? `<button class="btn btn-custom btn-primary btn-sm" onclick="issueBook(${book.id})">${book.status === 'Available' ? 'Issue' : 'Return'}</button>` : ''}
+                    </div>
+                </div>
+            `;
+        }
+
+        function busCard(bus) {
+            const role = schools.currentUser.role;
+            return `
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0"><i class="fas fa-bus"></i> ${bus.number}</h5>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Route:</strong> ${bus.route}</p>
+                        <p><strong>Driver:</strong> ${bus.driver}</p>
+                        ${role === 'Admin' ? `<button class="btn btn-custom btn-danger btn-sm" onclick="deleteItem('transport', ${bus.id})"><i class="fas fa-trash"></i> Delete</button>` : ''}
+                    </div>
+                </div>
+            `;
+        }
+
+        function roomCard(room) {
+            const schoolData = schools.data[schools.currentSchool];
+            const role = schools.currentUser.role;
+            const student = schoolData.students.find(s => s.id === room.studentId);
+            return `
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0"><i class="fas fa-building"></i> Room ${room.number}</h5>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Student:</strong> ${student ? student.name : 'Vacant'}</p>
+                        ${role === 'Admin' ? `<button class="btn btn-custom btn-danger btn-sm" onclick="deleteItem('hostel', ${room.id})"><i class="fas fa-trash"></i> Delete</button>` : ''}
+                    </div>
+                </div>
+            `;
+        }
+
+        function login(event) {
+            event.preventDefault();
+            const username = document.getElementById('loginUsername').value.trim();
+            const password = document.getElementById('loginPassword').value.trim();
+            const role = document.getElementById('loginRole').value;
+
+            const user = schools.users[username];
+            if (user && user.password === password && user.role === role) {
+                schools.currentUser = { username, role };
+                document.getElementById('loginSection').style.display = 'none';
+                document.getElementById('mainApp').style.display = 'block';
+                saveData();
+                alert(`Welcome, ${username} (${role})!`);
+            } else {
+                alert('Invalid username, password, or role. Please try again.');
+            }
+        }
+
+        function logout() {
+            schools.currentUser = null;
+            document.getElementById('mainApp').style.display = 'none';
+            document.getElementById('loginSection').style.display = 'block';
+            saveData();
+        }
+
+        function getStudentIdForParent() {
+            const schoolData = schools.data[schools.currentSchool];
+            return schoolData.students.length > 0 ? schoolData.students[0].id : null;
+        }
+
+        function addSchool(event) {
+            event.preventDefault();
+            if (schools.currentUser.role !== 'Admin') return;
+            const schoolName = document.getElementById('schoolName').value;
+            const schoolId = initializeSchool(schoolName);
+            schools.currentSchool = schoolId;
+            saveData();
+            bootstrap.Modal.getInstance(document.getElementById('addSchoolModal')).hide();
+            document.getElementById('schoolName').value = '';
+        }
+
+        function addStudent(event) {
+            event.preventDefault();
+            if (!schools.currentSchool || (schools.currentUser.role !== 'Admin' && schools.currentUser.role !== 'Teacher')) return;
+            const schoolData = schools.data[schools.currentSchool];
+            const rollNo = document.getElementById('studentRollNo').value;
+            const id = document.getElementById('studentId').value ? parseInt(document.getElementById('studentId').value) : schoolData.counters.student++;
+            const student = schoolData.students.find(s => s.id === id) || { attendance: [], grades: [] };
+
+            if (!id && schoolData.students.some(s => s.rollNo === rollNo)) {
+                alert('Roll number already exists!');
+                return;
+            }
+
+            student.id = id;
+            student.rollNo = rollNo;
+            student.name = document.getElementById('studentName').value;
+            student.class = document.getElementById('studentClass').value;
+            student.age = parseInt(document.getElementById('studentAge').value);
+            student.parent = document.getElementById('studentParent').value;
+            student.contact = document.getElementById('studentContact').value;
+
+            if (!schoolData.students.some(s => s.id === id)) schoolData.students.push(student);
+            saveData();
+            bootstrap.Modal.getInstance(document.getElementById('addStudentModal')).hide();
+            event.target.reset();
+            document.getElementById('studentId').value = '';
+        }
+
+        function editStudent(id) {
+            const schoolData = schools.data[schools.currentSchool];
+            const student = schoolData.students.find(s => s.id === id);
+            document.getElementById('studentId').value = student.id;
+            document.getElementById('studentRollNo').value = student.rollNo;
+            document.getElementById('studentName').value = student.name;
+            document.getElementById('studentClass').value = student.class;
+            document.getElementById('studentAge').value = student.age;
+            document.getElementById('studentParent').value = student.parent;
+            document.getElementById('studentContact').value = student.contact;
+            bootstrap.Modal.getOrCreateInstance(document.getElementById('addStudentModal')).show();
+        }
+
+        function searchStudents() {
+            const query = document.getElementById('searchStudent').value.toLowerCase();
+            const schoolData = schools.data[schools.currentSchool];
+            const filtered = schoolData.students.filter(s => s.rollNo.toLowerCase().includes(query) || s.name.toLowerCase().includes(query));
+            updateStudentTable(filtered);
+        }
+
+        function addTeacher(event) {
+            event.preventDefault();
+            if (!schools.currentSchool || schools.currentUser.role !== 'Admin') return;
+            const schoolData = schools.data[schools.currentSchool];
+            const teacher = {
+                id: schoolData.counters.teacher++,
+                name: document.getElementById('teacherName').value,
+                qualification: document.getElementById('teacherQualification').value,
+                subjects: document.getElementById('teacherSubjects').value.split(',').map(s => s.trim()),
+                contact: document.getElementById('teacherContact').value,
+                classId: document.getElementById('teacherClass').value ? parseInt(document.getElementById('teacherClass').value) : null,
+                experience: 0,
+                attendance: []
+            };
+            schoolData.teachers.push(teacher);
+            saveData();
+            bootstrap.Modal.getInstance(document.getElementById('addTeacherModal')).hide();
+            event.target.reset();
+        }
+
+        function addCourse(event) {
+            event.preventDefault();
+            if (!schools.currentSchool || (schools.currentUser.role !== 'Admin' && schools.currentUser.role !== 'Teacher')) return;
+            const schoolData = schools.data[schools.currentSchool];
+            const course = {
+                id: schoolData.counters.course++,
+                name: document.getElementById('courseName').value,
+                teacherId: parseInt(document.getElementById('courseTeacher').value),
+                syllabus: document.getElementById('courseSyllabus').value,
+                assignments: []
+            };
+            schoolData.courses.push(course);
+            saveData();
+            bootstrap.Modal.getInstance(document.getElementById('addCourseModal')).hide();
+            event.target.reset();
+        }
+
+        function addExam(event) {
+            event.preventDefault();
+            if (!schools.currentSchool || (schools.currentUser.role !== 'Admin' && schools.currentUser.role !== 'Teacher')) return;
+            const schoolData = schools.data[schools.currentSchool];
+            const exam = {
+                id: schoolData.counters.exam++,
+                name: document.getElementById('examName').value,
+                date: document.getElementById('examDate').value,
+                courseId: parseInt(document.getElementById('examCourse').value)
+            };
+            schoolData.exams.push(exam);
+            saveData();
+            bootstrap.Modal.getInstance(document.getElementById('addExamModal')).hide();
+            event.target.reset();
+        }
+
+        function addFee(event) {
+            event.preventDefault();
+            if (!schools.currentSchool || schools.currentUser.role !== 'Admin') return;
+            const schoolData = schools.data[schools.currentSchool];
+            const fee = {
+                id: schoolData.counters.fee++,
+                studentId: parseInt(document.getElementById('feeStudent').value),
+                amount: parseFloat(document.getElementById('feeAmount').value),
+                dueDate: document.getElementById('feeDueDate').value,
+                status: 'Pending'
+            };
+            schoolData.fees.push(fee);
+            addNotification(`Fee of ₹${fee.amount} due on ${fee.dueDate} for ${getStudentName(fee.studentId)}`);
+            saveData();
+            bootstrap.Modal.getInstance(document.getElementById('addFeeModal')).hide();
+            event.target.reset();
+        }
+
+        function addBook(event) {
+            event.preventDefault();
+            if (!schools.currentSchool || (schools.currentUser.role !== 'Admin' && schools.currentUser.role !== 'Teacher')) return;
+            const schoolData = schools.data[schools.currentSchool];
+            const book = {
+                id: schoolData.counters.book++,
+                title: document.getElementById('bookTitle').value,
+                author: document.getElementById('bookAuthor').value,
+                status: 'Available'
+            };
+            schoolData.library.push(book);
+            saveData();
+            bootstrap.Modal.getInstance(document.getElementById('addBookModal')).hide();
+            event.target.reset();
+        }
+
+        function addBus(event) {
+            event.preventDefault();
+            if (!schools.currentSchool || schools.currentUser.role !== 'Admin') return;
+            const schoolData = schools.data[schools.currentSchool];
+            const bus = {
+                id: schoolData.counters.bus++,
+                number: document.getElementById('busNumber').value,
+                route: document.getElementById('busRoute').value,
+                driver: document.getElementById('busDriver').value
+            };
+            schoolData.transport.push(bus);
+            saveData();
+            bootstrap.Modal.getInstance(document.getElementById('addBusModal')).hide();
+            event.target.reset();
+        }
+
+        function addRoom(event) {
+            event.preventDefault();
+            if (!schools.currentSchool || schools.currentUser.role !== 'Admin') return;
+            const schoolData = schools.data[schools.currentSchool];
+            const room = {
+                id: schoolData.counters.room++,
+                number: document.getElementById('roomNumber').value,
+                studentId: document.getElementById('roomStudent').value ? parseInt(document.getElementById('roomStudent').value) : null
+            };
+            schoolData.hostel.push(room);
+            saveData();
+            bootstrap.Modal.getInstance(document.getElementById('addRoomModal')).hide();
+            event.target.reset();
+        }
+
+        function recordAttendance(event) {
+            event.preventDefault();
+            if (!schools.currentSchool || (schools.currentUser.role !== 'Admin' && schools.currentUser.role !== 'Teacher')) return;
+            const schoolData = schools.data[schools.currentSchool];
+            const studentId = parseInt(document.getElementById('attendanceStudent').value);
+            const student = schoolData.students.find(s => s.id === studentId);
+            const attendance = {
+                date: document.getElementById('attendanceDate').value,
+                status: document.getElementById('attendanceStatus').value
+            };
+            student.attendance.push(attendance);
+            saveData();
+            bootstrap.Modal.getInstance(document.getElementById('attendanceModal')).hide();
+            event.target.reset();
+        }
+
+        function addResult(event) {
+            event.preventDefault();
+            if (!schools.currentSchool || (schools.currentUser.role !== 'Admin' && schools.currentUser.role !== 'Teacher')) return;
+            const schoolData = schools.data[schools.currentSchool];
+            const result = {
+                id: Date.now(),
+                studentId: parseInt(document.getElementById('resultStudent').value),
+                courseId: parseInt(document.getElementById('resultCourse').value),
+                marks: parseInt(document.getElementById('resultMarks').value)
+            };
+            schoolData.results.push(result);
+            saveData();
+            bootstrap.Modal.getInstance(document.getElementById('addResultModal')).hide();
+            event.target.reset();
+        }
+
+        function addTimetable(event) {
+            event.preventDefault();
+            if (!schools.currentSchool || (schools.currentUser.role !== 'Admin' && schools.currentUser.role !== 'Teacher')) return;
+            const schoolData = schools.data[schools.currentSchool];
+            const timetable = {
+                id: Date.now(),
+                day: document.getElementById('timetableDay').value,
+                period: parseInt(document.getElementById('timetablePeriod').value),
+                courseId: parseInt(document.getElementById('timetableCourse').value),
+                teacherId: parseInt(document.getElementById('timetableTeacher').value)
+            };
+            schoolData.timetable.push(timetable);
+            saveData();
+            bootstrap.Modal.getInstance(document.getElementById('addTimetableModal')).hide();
+            event.target.reset();
+        }
+
+        function addHomework(event) {
+            event.preventDefault();
+            if (!schools.currentSchool || (schools.currentUser.role !== 'Admin' && schools.currentUser.role !== 'Teacher')) return;
+            const schoolData = schools.data[schools.currentSchool];
+            const homework = {
+                id: schoolData.counters.homework++,
+                task: document.getElementById('homeworkTask').value,
+                dueDate: document.getElementById('homeworkDueDate').value,
+                completed: false
+            };
+            schoolData.homework.push(homework);
+            addNotification(`Homework "${homework.task}" due on ${homework.dueDate}`);
+            saveData();
+            bootstrap.Modal.getInstance(document.getElementById('addHomeworkModal')).hide();
+            event.target.reset();
+        }
+
+        function toggleHomework(id) {
+            const schoolData = schools.data[schools.currentSchool];
+            const homework = schoolData.homework.find(h => h.id === id);
+            homework.completed = !homework.completed;
+            saveData();
+        }
+
+        function addNotice(event) {
+            event.preventDefault();
+            if (!schools.currentSchool || (schools.currentUser.role !== 'Admin' && schools.currentUser.role !== 'Teacher')) return;
+            const schoolData = schools.data[schools.currentSchool];
+            const notice = {
+                id: schoolData.counters.notice++,
+                text: document.getElementById('noticeText').value,
+                date: new Date().toLocaleDateString()
+            };
+            schoolData.notices.push(notice);
+            addNotification(`New notice: ${notice.text}`);
+            saveData();
+            bootstrap.Modal.getInstance(document.getElementById('addNoticeModal')).hide();
+            event.target.reset();
+        }
+
+        function saveMessage() {
+            const schoolData = schools.data[schools.currentSchool];
+            const text = document.getElementById('messageLog').value.trim();
+            if (!text) return;
+            const message = {
+                text: text,
+                date: new Date().toLocaleDateString()
+            };
+            schoolData.messages.push(message);
+            saveData();
+            document.getElementById('messageLog').value = '';
+        }
+
+        function deleteItem(type, id) {
+            if (!schools.currentSchool || (schools.currentUser.role !== 'Admin' && (type !== 'students' && type !== 'homework' && type !== 'notices' || schools.currentUser.role !== 'Teacher'))) return;
+            const schoolData = schools.data[schools.currentSchool];
+            schoolData[type] = schoolData[type].filter(item => item.id !== id);
+            saveData();
+        }
+
+        function payFee(feeId) {
+            if (!schools.currentSchool || (schools.currentUser.role !== 'Parent' && schools.currentUser.role !== 'Student')) return;
+            const schoolData = schools.data[schools.currentSchool];
+            const fee = schoolData.fees.find(f => f.id === feeId);
+            fee.status = 'Paid';
+            saveData();
+            alert('Fee marked as paid (Note: Real payment integration requires backend)');
+        }
+
+        function issueBook(bookId) {
+            if (!schools.currentSchool || (schools.currentUser.role !== 'Admin' && schools.currentUser.role !== 'Teacher' && schools.currentUser.role !== 'Student')) return;
+            const schoolData = schools.data[schools.currentSchool];
+            const book = schoolData.library.find(b => b.id === bookId);
+            book.status = book.status === 'Available' ? 'Issued' : 'Available';
+            saveData();
+        }
+
+        function setAttendanceStudent(studentId) {
+            document.getElementById('attendanceStudent').value = studentId;
+        }
+
+        function getStudentName(studentId) {
+            const schoolData = schools.data[schools.currentSchool];
+            const student = schoolData.students.find(s => s.id === studentId);
+            return student ? student.name : 'N/A';
+        }
+
+        function getCourseName(courseId) {
+            const schoolData = schools.data[schools.currentSchool];
+            const course = schoolData.courses.find(c => c.id === courseId);
+            return course ? course.name : 'N/A';
+        }
+
+        function getTeacherName(teacherId) {
+            const schoolData = schools.data[schools.currentSchool];
+            const teacher = schoolData.teachers.find(t => t.id === teacherId);
+            return teacher ? teacher.name : 'N/A';
+        }
+
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+        }
+
+        function updateClock() {
+            const clock = document.getElementById('realTimeClock');
+            if (clock) clock.textContent = new Date().toLocaleTimeString();
+        }
+
+        function addNotification(message) {
+            schools.notifications.push({ message, date: new Date().toLocaleString() });
+            saveData();
+            checkNotifications();
+        }
+
+        function checkNotifications() {
+            const schoolData = schools.data[schools.currentSchool];
+            schoolData.fees.forEach(fee => {
+                const dueDate = new Date(fee.dueDate);
+                const today = new Date();
+                if (fee.status === 'Pending' && dueDate <= today.setDate(today.getDate() + 1)) {
+                    alert(`Fee due tomorrow for ${getStudentName(fee.studentId)}: ₹${fee.amount}`);
+                }
+            });
+            schoolData.homework.forEach(hw => {
+                const dueDate = new Date(hw.dueDate);
+                const today = new Date();
+                if (!hw.completed && dueDate <= today.setDate(today.getDate() + 1)) {
+                    alert(`Homework due tomorrow: ${hw.task}`);
+                }
+            });
+        }
+
+        function downloadBackup() {
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(schools));
+            const downloadAnchorNode = document.createElement('a');
+            downloadAnchorNode.setAttribute("href", dataStr);
+            downloadAnchorNode.setAttribute("download", "schoolsync_backup.json");
+            document.body.appendChild(downloadAnchorNode);
+            downloadAnchorNode.click();
+            downloadAnchorNode.remove();
+        }
+
+        document.getElementById('schoolSelect').addEventListener('change', function() {
+            schools.currentSchool = this.value || null;
+            updateUI();
+        });
+
+        if (localStorage.getItem('darkMode') === 'true') document.body.classList.add('dark-mode');
+        loadData();
+    </script>
 </body>
 </html>
