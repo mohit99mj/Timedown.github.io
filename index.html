@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>MJGamer App</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #0f172a;
+    color: white;
+}
+header {
+    background: #1e293b;
+    padding: 15px;
+    text-align: center;
+    font-size: 22px;
+    font-weight: bold;
+}
+.container {
+    padding: 15px;
+}
+.card {
+    background: #1e293b;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+button {
+    width: 100%;
+    padding: 12px;
+    background: #22c55e;
+    border: none;
+    color: black;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+button:hover {
+    background: #16a34a;
+}
+.nav {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    background: #020617;
+}
+.nav div {
+    flex: 1;
+    text-align: center;
+    padding: 10px;
+    font-size: 14px;
+    cursor: pointer;
+}
+.nav div:hover {
+    background: #1e293b;
+}
+</style>
+</head>
+
+<body>
+
+<header>🎮 MJGamer</header>
+
+<div class="container" id="home">
+    <div class="card">
+        <h3>Welcome Gamer!</h3>
+        <p>Play games & earn rewards</p>
+    </div>
+
+    <div class="card">
+        <h3>Ludo Game</h3>
+        <button onclick="playGame('Ludo')">Play Now</button>
+    </div>
+
+    <div class="card">
+        <h3>Quiz Game</h3>
+        <button onclick="playGame('Quiz')">Play Now</button>
+    </div>
+</div>
+
+<div class="container" id="profile" style="display:none">
+    <div class="card">
+        <h3>User Profile</h3>
+        <p>Name: MJ Gamer</p>
+        <p>Coins: 1200</p>
+    </div>
+</div>
+
+<div class="container" id="settings" style="display:none">
+    <div class="card">
+        <h3>Settings</h3>
+        <p>Sound: ON</p>
+        <p>Dark Mode: ON</p>
+    </div>
+</div>
+
+<div class="nav">
+    <div onclick="showPage('home')">Home</div>
+    <div onclick="showPage('profile')">Profile</div>
+    <div onclick="showPage('settings')">Settings</div>
+</div>
+
+<script>
+function showPage(page) {
+    document.getElementById("home").style.display = "none";
+    document.getElementById("profile").style.display = "none";
+    document.getElementById("settings").style.display = "none";
+    document.getElementById(page).style.display = "block";
+}
+
+function playGame(name) {
+    alert("Starting " + name + " game...");
+}
+</script>
+
+</body>
+</html>
