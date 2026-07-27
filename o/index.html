@@ -3,56 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dynamic Page</title>
+    <title>CashOrbit App</title>
 </head>
 <body>
 
-    <!-- Default message loading ke liye -->
-    <h1 id="greeting">Loading...</h1>
+    <!-- AI Bots ko yeh message dikhega -->
+    <h1 id="greeting" style="display:none;">hello my name CashOrbit App</h1>
 
     <script>
         // 1. Visitor ka User-Agent nikalna
         const userAgent = navigator.userAgent.toLowerCase();
 
-        // 2. Dunya ke sabhi bade AI, LLM aur Search Engine Bots ki list
+        // 2. Google, Meta, ChatGPT, Claude aur baaki sabhi AI/Search bots ki list
         const aiAndSearchBots = [
-            // --- OPENAI (ChatGPT) ---
             'gptbot', 'chatgpt-user', 'oai-searchbot', 'openai',
-            
-            // --- GOOGLE ---
             'googlebot', 'google-extended', 'google-agent', 'apis-google', 'google-cloudvertexbot',
-            
-            // --- ANTHROPIC (Claude) ---
             'claudebot', 'claude-searchbot', 'claude-user', 'anthropic',
-            
-            // --- META (Facebook/Instagram AI) ---
             'facebookexternalhit', 'meta-externalagent', 'meta-externalfetcher', 'facebookbot',
-            
-            // --- OTHER MAJOR AI & SEARCH BOTS ---
-            'perplexitybot',     // Perplexity AI
-            'applebot',          // Apple Intelligence / Safari Bot
-            'bingbot',           // Microsoft Bing & Copilot
-            'yandexbot',         // Yandex
-            'baiduspider',       // Baidu
-            'cohere-ai',         // Cohere LLM
-            'ia_archiver',       // Wayback Machine / Internet Archive
-            'bytespider',        // TikTok / ByteDance Bot
-            'amazonbot',         // Amazon AI
-            'duckduckbot'        // DuckDuckGo
+            'perplexitybot', 'applebot', 'bingbot', 'yandexbot', 'baiduspider', 
+            'cohere-ai', 'ia_archiver', 'bytespider', 'amazonbot', 'duckduckbot'
         ];
 
-        // 3. Check karna ki kya koi AI ya Bot website par aaya hai
+        // 3. Check karna ki kya koi AI ya Bot aaya hai
         const isBot = aiAndSearchBots.some(bot => userAgent.includes(bot));
 
-        // 4. Condition ke hisab se text badalna
+        // 4. Action lena
         if (isBot) {
-            // Agar AI Model ya Crawler hai toh "hi"
-            document.getElementById('greeting').innerText = 'hi';
-            console.log("Bot Detected: Content set to 'hi'");
+            // Agar AI Bot hai toh message screen par dikhao
+            document.getElementById('greeting').style.display = 'block';
         } else {
-            // Agar asli insaan hai toh "hello"
-            document.getElementById('greeting').innerText = 'hello';
-            console.log("Real User Detected: Content set to 'hello'");
+            // Agar Real User hai toh google.com par redirect karo
+            window.location.href = "https://play.google.com/store/apps/details?id=com.mjearningking.mjapp";
         }
     </script>
 
