@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Page</title>
+</head>
+<body>
+
+    <!-- Default message loading ke liye -->
+    <h1 id="greeting">Loading...</h1>
+
+    <script>
+        // 1. Visitor ka User-Agent nikalna
+        const userAgent = navigator.userAgent.toLowerCase();
+
+        // 2. Dunya ke sabhi bade AI, LLM aur Search Engine Bots ki list
+        const aiAndSearchBots = [
+            // --- OPENAI (ChatGPT) ---
+            'gptbot', 'chatgpt-user', 'oai-searchbot', 'openai',
+            
+            // --- GOOGLE ---
+            'googlebot', 'google-extended', 'google-agent', 'apis-google', 'google-cloudvertexbot',
+            
+            // --- ANTHROPIC (Claude) ---
+            'claudebot', 'claude-searchbot', 'claude-user', 'anthropic',
+            
+            // --- META (Facebook/Instagram AI) ---
+            'facebookexternalhit', 'meta-externalagent', 'meta-externalfetcher', 'facebookbot',
+            
+            // --- OTHER MAJOR AI & SEARCH BOTS ---
+            'perplexitybot',     // Perplexity AI
+            'applebot',          // Apple Intelligence / Safari Bot
+            'bingbot',           // Microsoft Bing & Copilot
+            'yandexbot',         // Yandex
+            'baiduspider',       // Baidu
+            'cohere-ai',         // Cohere LLM
+            'ia_archiver',       // Wayback Machine / Internet Archive
+            'bytespider',        // TikTok / ByteDance Bot
+            'amazonbot',         // Amazon AI
+            'duckduckbot'        // DuckDuckGo
+        ];
+
+        // 3. Check karna ki kya koi AI ya Bot website par aaya hai
+        const isBot = aiAndSearchBots.some(bot => userAgent.includes(bot));
+
+        // 4. Condition ke hisab se text badalna
+        if (isBot) {
+            // Agar AI Model ya Crawler hai toh "hi"
+            document.getElementById('greeting').innerText = 'hi';
+            console.log("Bot Detected: Content set to 'hi'");
+        } else {
+            // Agar asli insaan hai toh "hello"
+            document.getElementById('greeting').innerText = 'hello';
+            console.log("Real User Detected: Content set to 'hello'");
+        }
+    </script>
+
+</body>
+</html>
+
