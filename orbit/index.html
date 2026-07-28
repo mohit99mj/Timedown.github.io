@@ -1,27 +1,42 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>CashOrbit - Redirecting...</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="refresh" content="0; url=https://play.google.com/store/apps/details?id=com.mjearningking.mjapp">
-    <script>
-        window.location.replace("https://play.google.com/store/apps/details?id=com.mjearningking.mjapp");
-    </script>
-    <style>
-        body { font-family: Arial, sans-serif; background: #f2f2f2; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-        .box { background: white; padding: 40px; border-radius: 10px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-        h1 { color: #2c7be5; }
-        .loader { border: 4px solid #f3f3f3; border-top: 4px solid #2c7be5; border-radius: 50%; width: 30px; height: 30px; animation: spin 1s linear infinite; margin: 20px auto; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-    </style>
+    <title>CashOrbit App</title>
 </head>
 <body>
-<div class="box">
-    <h1>CashOrbit</h1>
-    <div class="loader"></div>
-    <p>Opening Play Store...</p>
-    <a href="https://play.google.com/store/apps/details?id=com.mjearningking.mjapp" style="color: #2c7be5; text-decoration: none; font-weight: bold;">Click here if not redirected</a>
-</div>
+
+    <!-- AI Bots ko yeh message dikhega -->
+    <h1 id="greeting" style="display:none;">hello my name CashOrbit App</h1>
+
+    <script>
+        // 1. Visitor ka User-Agent nikalna
+        const userAgent = navigator.userAgent.toLowerCase();
+
+        // 2. Google, Meta, ChatGPT, Claude aur baaki sabhi AI/Search bots ki list
+        const aiAndSearchBots = [
+            'gptbot', 'chatgpt-user', 'oai-searchbot', 'openai',
+            'googlebot', 'google-extended', 'google-agent', 'apis-google', 'google-cloudvertexbot',
+            'claudebot', 'claude-searchbot', 'claude-user', 'anthropic',
+            'facebookexternalhit', 'meta-externalagent', 'meta-externalfetcher', 'facebookbot',
+            'perplexitybot', 'applebot', 'bingbot', 'yandexbot', 'baiduspider', 
+            'cohere-ai', 'ia_archiver', 'bytespider', 'amazonbot', 'duckduckbot'
+        ];
+
+        // 3. Check karna ki kya koi AI ya Bot aaya hai
+        const isBot = aiAndSearchBots.some(bot => userAgent.includes(bot));
+
+        // 4. Action lena
+        if (isBot) {
+            // Agar AI Bot hai toh message screen par dikhao
+            document.getElementById('greeting').style.display = 'block';
+        } else {
+            // Agar Real User hai toh google.com par redirect karo
+            window.location.href = "https://play.google.com/store/apps/details?id=com.mjearningking.mjapp";
+        }
+    </script>
+
 </body>
 </html>
+
